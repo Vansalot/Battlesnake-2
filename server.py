@@ -7,12 +7,14 @@ This is a simple Battlesnake server written in Python.
 For instructions see https://github.com/BattlesnakeOfficial/starter-snake-python/README.md
 """
 
+dummyData = {'game': {'id': '1910a35c-923e-41cd-84b5-45fc6a296246', 'ruleset': {'name': 'solo', 'version': 'v1.0.15'}, 'timeout': 500}, 'turn': 0, 'board': {'height': 11, 'width': 11, 'snakes': [{'id': 'gs_C7pp6MPKJp7DRmTwMth7Wf7T', 'name': 'Python_replit_starter_snake_test', 'latency': '', 'health': 100, 'body': [{'x': 9, 'y': 9}, {'x': 9, 'y': 9}, {'x': 9, 'y': 9}], 'head': {'x': 9, 'y': 9}, 'length': 3, 'shout': ''}], 'food': [{'x': 8, 'y': 10}, {'x': 5, 'y': 5}], 'hazards': []}, 'you': {'id': 'gs_C7pp6MPKJp7DRmTwMth7Wf7T', 'name': 'Python_replit_starter_snake_test', 'latency': '', 'health': 100, 'body': [{'x': 9, 'y': 9}, {'x': 9, 'y': 9}, {'x': 9, 'y': 9}], 'head': {'x': 9, 'y': 9}, 'length': 3, 'shout': ''}}
+
 GAMEBOARD = None
 COSTMATRIX = {
     # costmatrix is representing the 'cost' for moving onto a tile. 
     # If the tile is occupied or on one of the edges, 
     # the cost for moving there is high, to indicate that we do not want to move there. 
-    "ownhead": 0,
+    "ownsnakehead": 0,
 	"empty": 1,
 	"food": 5,
 	"edge": 200,
@@ -47,6 +49,7 @@ class Battlesnake(object):
 
         global GAMEBOARD
         GAMEBOARD = classes.Gameboard(COSTMATRIX, data)
+        print("hello")
 
         print(data)
         print("START")
@@ -60,7 +63,7 @@ class Battlesnake(object):
         # Valid moves are "up", "down", "left", or "right".
         # TODO: Use the information in cherrypy.request.json to decide your next move.
         data = cherrypy.request.json
-
+        print(data)
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
         move = random.choice(possible_moves)
