@@ -17,7 +17,7 @@ class Gameboard():
         self.boardSize = [data["board"]["height"], data["board"]["width"]]
         self.foodCoords = data["board"]["food"] # dict with locations for food, could/should be removed
         self.foodCount = len(self.foodCoords) # how many food tiles are available
-        self.ownSnakeSize = len(self.ownSnake) # size of your snake, might be used in the future. 
+        self.ownSnakeSize = len(data["you"]["body"]) # size of your snake, might be used in the future. 
         self.dataPreviousRound = None # Data from the previous round/board, to be used to compare new rounds.
 
         self.tiles = self.startCreateTiles(self.boardSize) # Create an object for every tile
