@@ -15,6 +15,7 @@ COSTMATRIX = {
     # If the tile is occupied or on one of the edges, 
     # the cost for moving there is high, to indicate that we do not want to move there. 
     "ownsnakehead": 0,
+    "ownsnakebody": 9999,
 	"empty": 1,
 	"food": 5,
 	"edge": 200,
@@ -49,9 +50,7 @@ class Battlesnake(object):
 
         global GAMEBOARD
         GAMEBOARD = classes.Gameboard(COSTMATRIX, data)
-        print("hello")
 
-        print(data)
         print("START")
         return "ok"
 
@@ -63,11 +62,27 @@ class Battlesnake(object):
         # Valid moves are "up", "down", "left", or "right".
         # TODO: Use the information in cherrypy.request.json to decide your next move.
         data = cherrypy.request.json
-        print(data)
+        move = None
+        print(data, "\n\n")
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
-        move = random.choice(possible_moves)
+        
+        #move = random.choice(possible_moves)
+        # Basic movement logic, just to try and get some more moves out of the snake, 
+        # a tiny bit better than random.chouce(possible_moves)
+        if data["you"]["head"]["x"] == 0:
+            move = "down"
+        if data["you"]["head"]["y"] == 0:
+            move = "right"
+        if data["you"]["head"]["x"] == data["board"]["width"] - 1:
+            move = "up"
+        if data["you"]["head"]["y"] == data["board"]["height"] - 1:
+            move = "left"
+        if data["you"]["head"]["y"] == data["board"]["height"] - 1 and data["you"]["head"]["x"] == 0:
+            move = "down"
 
+        GAMEBOARD.updateSnakeLocations(data)
+        GAMEBOARD.updatedataPreviousRound(data) # Must be last, to store data from the finished round.
         print(f"MOVE: {move}")
         return {"move": move}
 
