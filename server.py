@@ -14,8 +14,8 @@ COSTMATRIX = {
     # costmatrix is representing the 'cost' for moving onto a tile. 
     # If the tile is occupied or on one of the edges, 
     # the cost for moving there is high, to indicate that we do not want to move there. 
-    "ownsnakehead": 0,
-    "ownsnakebody": 9999,
+    "ownsnakehead": 1337,
+    "ownsnakebody": 9998,
 	"empty": 1,
 	"food": 5,
 	"edge": 200,

@@ -25,7 +25,7 @@ class Gameboard():
         self.startSetFoodTiles(data["board"]["food"]) # set up cost for the food at the start. 
         self.updateSnakeLocations(data)
         
-        #self.printTiles() # Print the tiles on the board, meant for debug, checking values.
+        self.printTiles() # Print the tiles on the board, meant for debug, checking values.
 
 
 
@@ -86,6 +86,7 @@ class Gameboard():
     def updateTileCost(self, coordinateList, costType):
         '''
         coords -> [[x, x][x, x]], costType -> String
+        
         Update tiles individually based on coordinate list received, it will be updated according to the costType parameter,
         which is referring to the costMatrix. 
         '''
@@ -98,25 +99,27 @@ class Gameboard():
                 # if the current cost of the tile is higher than what we are updating to, do NOT update the cost. 
                 print(coordinates, currentCord.cost, "newCostupdate", self.costMatrix[costType], "tile not updated.")
  
-            if currentCord.cost == currentCord.originalCost or currentCord.cost == self.costMatrix[costType]:
-                    # if the current cost is same as the existing cost, pass.
-                    pass
-            
+            # if currentCord.cost == currentCord.originalCost or currentCord.cost == self.costMatrix[costType]:
+            if costType != "originalCost" and currentCord.cost == self.costMatrix[costType]:
+                #! FIX this messes up food update. 
+                # if the current cost is same as the existing cost, pass.
+                pass
+
             elif costType == "ownsnakehead":
                 # update the ownsnakehead cost without checking values.
-                currentCord.cost = self.costMatrix[costType]
                 print("updated:", coordinates,"from value:", currentCord.cost, "to value:", self.costMatrix[costType], "ownsnakehead")
+                currentCord.cost = self.costMatrix[costType]
 
             elif costType == "originalCost":
                 # If costtype is going back to default/originalCost.
-                currentCord.cost = currentCord.originalCost
                 print("updated:", coordinates,"from value:", currentCord.cost, "to value:", currentCord.originalCost, "originalCost")
+                currentCord.cost = currentCord.originalCost
 
             elif currentCord.cost < self.costMatrix[costType]:
                 # if the current cost is lower than the existing cost, update the cost.
-                currentCord.cost = self.costMatrix[costType]
                 print("updated:", coordinates, "from value:", currentCord.cost, "to value:", self.costMatrix[costType], "currentcost < costmatrix")
-            
+                currentCord.cost = self.costMatrix[costType]
+
             else:
                 print("updateTileCost hit 'else' condition")
 
@@ -199,20 +202,23 @@ class Gameboard():
         Test function, for printing cost of tiles and see if it looks ok.
         '''
         for indexX, listX in enumerate(self.tiles):
+            if indexX > 0:
+                print('')
             for indexY, listY in enumerate(listX):
-                
+
                 if self.tiles[indexX][indexY].cost == 0:
-                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* you are here *")
+                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* you are here *", end=', ')
                 
                 elif self.tiles[indexX][indexY].cost == 300:
-                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* Corner *")
+                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* Corner *", end=', ')
                 
                 elif self.tiles[indexX][indexY].cost == 9999:
-                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* snake/body *")    
+                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, "* snake/body *", end=', ')  
 
                 else:
-                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost)
-
+                    print(indexX, indexY,":", self.tiles[indexX][indexY].cost, end=', ')
+        
+        print('\n')
 
     def startCreateTiles(self, boardSize):
         '''
